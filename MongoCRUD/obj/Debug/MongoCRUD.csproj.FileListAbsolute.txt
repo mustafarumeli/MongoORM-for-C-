@@ -1,0 +1,17 @@
+C:\Users\zuzu\Desktop\MongoCRUD\MongoCRUD\MongoCRUD\MongoCRUD\obj\Debug\MongoCRUD.csprojAssemblyReference.cache
+C:\Users\zuzu\Desktop\MongoCRUD\MongoCRUD\MongoCRUD\MongoCRUD\obj\Debug\MongoCRUD.csproj.CoreCompileInputs.cache
+C:\Users\zuzu\Desktop\MongoCRUD\MongoCRUD\MongoCRUD\MongoCRUD\bin\Debug\MongoCRUD.dll
+C:\Users\zuzu\Desktop\MongoCRUD\MongoCRUD\MongoCRUD\MongoCRUD\bin\Debug\MongoCRUD.pdb
+C:\Users\zuzu\Desktop\MongoCRUD\MongoCRUD\MongoCRUD\MongoCRUD\bin\Debug\DnsClient.dll
+C:\Users\zuzu\Desktop\MongoCRUD\MongoCRUD\MongoCRUD\MongoCRUD\bin\Debug\MongoDB.Bson.dll
+C:\Users\zuzu\Desktop\MongoCRUD\MongoCRUD\MongoCRUD\MongoCRUD\bin\Debug\MongoDB.Driver.Core.dll
+C:\Users\zuzu\Desktop\MongoCRUD\MongoCRUD\MongoCRUD\MongoCRUD\bin\Debug\MongoDB.Driver.dll
+C:\Users\zuzu\Desktop\MongoCRUD\MongoCRUD\MongoCRUD\MongoCRUD\bin\Debug\System.Buffers.dll
+C:\Users\zuzu\Desktop\MongoCRUD\MongoCRUD\MongoCRUD\MongoCRUD\bin\Debug\System.Runtime.InteropServices.RuntimeInformation.dll
+C:\Users\zuzu\Desktop\MongoCRUD\MongoCRUD\MongoCRUD\MongoCRUD\bin\Debug\DnsClient.xml
+C:\Users\zuzu\Desktop\MongoCRUD\MongoCRUD\MongoCRUD\MongoCRUD\bin\Debug\MongoDB.Bson.xml
+C:\Users\zuzu\Desktop\MongoCRUD\MongoCRUD\MongoCRUD\MongoCRUD\bin\Debug\MongoDB.Driver.xml
+C:\Users\zuzu\Desktop\MongoCRUD\MongoCRUD\MongoCRUD\MongoCRUD\bin\Debug\MongoDB.Driver.Core.xml
+C:\Users\zuzu\Desktop\MongoCRUD\MongoCRUD\MongoCRUD\MongoCRUD\obj\Debug\MongoCRUD.csproj.CopyComplete
+C:\Users\zuzu\Desktop\MongoCRUD\MongoCRUD\MongoCRUD\MongoCRUD\obj\Debug\MongoCRUD.dll
+C:\Users\zuzu\Desktop\MongoCRUD\MongoCRUD\MongoCRUD\MongoCRUD\obj\Debug\MongoCRUD.pdb
