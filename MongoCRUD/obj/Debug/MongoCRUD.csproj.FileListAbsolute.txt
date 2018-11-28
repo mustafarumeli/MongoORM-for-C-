@@ -15,3 +15,14 @@ C:\Users\zuzu\Desktop\MongoCRUD\MongoCRUD\MongoCRUD\MongoCRUD\bin\Debug\MongoDB.
 C:\Users\zuzu\Desktop\MongoCRUD\MongoCRUD\MongoCRUD\MongoCRUD\obj\Debug\MongoCRUD.csproj.CopyComplete
 C:\Users\zuzu\Desktop\MongoCRUD\MongoCRUD\MongoCRUD\MongoCRUD\obj\Debug\MongoCRUD.dll
 C:\Users\zuzu\Desktop\MongoCRUD\MongoCRUD\MongoCRUD\MongoCRUD\obj\Debug\MongoCRUD.pdb
+D:\Projects\MongodbConnectionDll\MongoCRUD\bin\Debug\MongoCRUD.dll
+D:\Projects\MongodbConnectionDll\MongoCRUD\bin\Debug\MongoCRUD.pdb
+D:\Projects\MongodbConnectionDll\MongoCRUD\bin\Debug\DnsClient.xml
+D:\Projects\MongodbConnectionDll\MongoCRUD\bin\Debug\MongoDB.Bson.xml
+D:\Projects\MongodbConnectionDll\MongoCRUD\bin\Debug\MongoDB.Driver.xml
+D:\Projects\MongodbConnectionDll\MongoCRUD\bin\Debug\MongoDB.Driver.Core.xml
+D:\Projects\MongodbConnectionDll\MongoCRUD\obj\Debug\MongoCRUD.csprojAssemblyReference.cache
+D:\Projects\MongodbConnectionDll\MongoCRUD\obj\Debug\MongoCRUD.csproj.CoreCompileInputs.cache
+D:\Projects\MongodbConnectionDll\MongoCRUD\obj\Debug\MongoCRUD.csproj.CopyComplete
+D:\Projects\MongodbConnectionDll\MongoCRUD\obj\Debug\MongoCRUD.dll
+D:\Projects\MongodbConnectionDll\MongoCRUD\obj\Debug\MongoCRUD.pdb

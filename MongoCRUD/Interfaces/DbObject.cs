@@ -10,12 +10,11 @@ namespace MongoCRUD.Interfaces
     {
         public string _id { get; set; }
         public DateTime CreationDate { get; set; }
-        public byte IsDeleted { get; set; }
-        public DbObject()
+
+        protected DbObject()
         {
             _id = Guid.NewGuid().ToString();
             CreationDate = DateTime.Now;
-            IsDeleted = 0;
         }
     }
 }

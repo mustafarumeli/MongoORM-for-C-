@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MongoCRUD.Structs;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -10,27 +8,22 @@ namespace MongoCRUD
 {
     public class MongoDbConnection
     {
-        internal static bool InitializeAndStartConnection(string databaseName,string serverIP = "localhost", int port = 27017)
+        public static bool InitializeAndStartConnection(string databaseName,
+            string serverIP = "localhost",
+            int port = 27017,
+            string userName = "", 
+            string password = "",
+            Lazy<MongoConnectionStringOptions> connectionStringOptions = null,
+            IEnumerable<MongoConnectionStringReplicas> connectionStringReplicas = null)
         {
-            _client = new MongoClient($"mongodb://{serverIP}:{port}/{databaseName}");
-            _database = _client.GetDatabase(databaseName);
-            try
-            {
-                Database.RunCommand((Command<BsonDocument>)"{ping:1}");
-            }
-            catch (TimeoutException)
-            {
-                return false;
-            }
-            return true;
-        }
-        public static bool InitializeAndStartConnection(string databaseName,string serverIP = "localhost", int port = 27017,string userName = "", string password = "")
-        {
-            if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password)) 
-            {
-                return InitializeAndStartConnection(databaseName,serverIP, port);
-            }
-            _client = new MongoClient($"mongodb://{userName}:{password}@{serverIP}:{port}/{databaseName}");
+            MongoConnectionObjectBuilder builder = new MongoConnectionObjectBuilder();
+            MongoConnectionObject mObject = (MongoConnectionObject)builder.GiveDatabaseName(databaseName)
+                .GiveHost(serverIP)
+                .GivePort(port)
+                .GiveUserName(userName)
+                .GivePassword(password);
+
+            _client = new MongoClient(mObject.ToString());
             _database = _client.GetDatabase(databaseName);
             try
             {
@@ -43,11 +36,9 @@ namespace MongoCRUD
             return true;
         }
 
-     
+
         private static IMongoClient _client;
         private static IMongoDatabase _database;
-        internal static IMongoDatabase Database { get { return _database; } }
-     
-
+        internal static IMongoDatabase Database => _database;
     }
 }

@@ -10,28 +10,11 @@ using System.Threading.Tasks;
 
 namespace MongoCRUD
 {
-    public  class Crud<T> : IRepository<T> where T : DbObject, new()
+    public  class Crud<T> : IRepository<T> where T : DbObject
     {
         private readonly IMongoDatabase _database;
         protected IMongoCollection<BsonDocument> Table;
-        protected static BsonDocument GenerateDayCheckDocument(DateTime date)
-        {
-            var highDate = date.AddDays(1);
-            highDate = new DateTime(highDate.Year, highDate.Month, highDate.Day, 0, 0, 0);
-            return new BsonDocument
-            {
-                {
-                    "$gte",
-                    new DateTime(date.Year, date.Month, date.Day, 0, 0, 0)
-                },
 
-                {
-                    "$lt", highDate
-                }
-            };
-        }
-
-        
         public Crud()
         {
             _database = MongoDbConnection.Database;
@@ -51,22 +34,8 @@ namespace MongoCRUD
                 return false;
             }
         }
-        public virtual bool NameCheck(string name)
-        {
-            try
-            {
-                var filter = new BsonDocument { { "Name", name } };
-                var cursor = Table.FindSync(filter);
-                cursor.MoveNext();
-                return cursor.Current.Any();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return true;
-            }
-        }
-        public virtual bool Delete(string id)
+
+        private bool SoftDelete(string id)
         {
             try
             {
@@ -74,6 +43,23 @@ namespace MongoCRUD
                 var builder = Builders<BsonDocument>.Update.Set("IsDeleted", 1);
 
                 Table.UpdateOne(filter, builder);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public virtual bool Delete(string id)
+        {
+            try
+            {
+                if (typeof(T) == typeof(DbObjectSD))
+                {
+                    return SoftDelete(id);
+                }
+                var filter = new BsonDocument { { "_id", id } };
+                Table.DeleteOne(filter);
                 return true;
             }
             catch
@@ -148,17 +134,20 @@ namespace MongoCRUD
 
         public virtual T GetOne(string id)
         {
-            if (id == "ALL")
-            {
-                return new T { _id = null };
-            }
             var filter = new BsonDocument { { "_id", id }, { "IsDeleted", 0 } };
             var cursor = Table.FindSync(filter);
             cursor.MoveNext();
-            var batch = cursor.Current;
-            return BsonSerializer.Deserialize<T>(batch.FirstOrDefault());
-
-
+            try
+            {
+                var batch = cursor.Current;
+                if (batch == null) return null;
+                return BsonSerializer.Deserialize<T>(batch.FirstOrDefault());
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
         }
 
         public List<T> Search(string column, string value)
@@ -221,7 +210,7 @@ namespace MongoCRUD
             catch
             {
 
-                return new T { _id = null };
+                return null;
             }
 
         }
@@ -239,7 +228,7 @@ namespace MongoCRUD
             catch
             {
 
-                return new T { _id = null };
+                return null;
             }
 
         }
@@ -257,7 +246,7 @@ namespace MongoCRUD
             catch
             {
 
-                return new T { _id = null };
+                return null;
             }
 
         }
