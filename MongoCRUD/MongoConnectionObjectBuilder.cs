@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MongoCRUD.Structs;
 
@@ -43,21 +44,17 @@ namespace MongoCRUD
             _mongoConnectionObject.DatabaseName = databaseName;
             return this;
         }
-        internal MongoConnectionObjectBuilder GiveConnectionOptions(int w,string readPreference)
+        internal MongoConnectionObjectBuilder AddConnectionOptions(params Tuple<string,string>[] options )
         {
-            var connectionOptions = _mongoConnectionObject.ConnectionOption;
-            connectionOptions.W = w;
-            connectionOptions.ReadPreference = readPreference;
-            return this;
-        }
-        internal MongoConnectionObjectBuilder GiveConnectionOptions(MongoConnectionStringOptions connectionStringOptions)
-        {
-            _mongoConnectionObject.ConnectionOption = (ConnectionOptions)connectionStringOptions;
+            foreach (var option in options)
+            {
+                _mongoConnectionObject.ConnectionOption.Add(option.Item1,option.Item2);
+            }
             return this;
         }
         internal MongoConnectionObjectBuilder AddReplica(string host, int port)
         {
-            _mongoConnectionObject.ReplicasIpConfig.Value.Add(new IpConfig
+            _mongoConnectionObject.ReplicasIpConfig.Value.Add(new MongoConnectionObject.IpConfig
             {
                 Host = host,
                 Port = port
@@ -66,7 +63,7 @@ namespace MongoCRUD
         }
         internal MongoConnectionObjectBuilder AddReplica(IEnumerable<MongoConnectionStringReplicas> connectionStringReplicas)
         {
-            _mongoConnectionObject.ReplicasIpConfig.Value.AddRange(connectionStringReplicas.Select(x=>(IpConfig)x));
+            _mongoConnectionObject.ReplicasIpConfig.Value.AddRange(connectionStringReplicas.Select(x=>(MongoConnectionObject.IpConfig)x));
             return this;
         }
         public static explicit operator MongoConnectionObject(MongoConnectionObjectBuilder builder)

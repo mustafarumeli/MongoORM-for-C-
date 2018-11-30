@@ -67,7 +67,6 @@
     <Compile Include="Interfaces\DbObject.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Structs\MongoConnectionStringOptions.cs" />
     <Compile Include="Structs\MongoConnectionStringReplicas.cs" />
   </ItemGroup>
   <ItemGroup>
