@@ -54,7 +54,7 @@ namespace MongoCRUD
         }
         internal MongoConnectionObjectBuilder AddReplica(string host, int port)
         {
-            _mongoConnectionObject.ReplicasIpConfig.Value.Add(new MongoConnectionObject.IpConfig
+            _mongoConnectionObject.ReplicasIpConfig.Add(new MongoConnectionObject.IpConfig
             {
                 Host = host,
                 Port = port
@@ -63,7 +63,7 @@ namespace MongoCRUD
         }
         internal MongoConnectionObjectBuilder AddReplica(IEnumerable<MongoConnectionStringReplicas> connectionStringReplicas)
         {
-            _mongoConnectionObject.ReplicasIpConfig.Value.AddRange(connectionStringReplicas.Select(x=>(MongoConnectionObject.IpConfig)x));
+            _mongoConnectionObject.ReplicasIpConfig.AddRange(connectionStringReplicas.Select(x=>(MongoConnectionObject.IpConfig)x));
             return this;
         }
         public static explicit operator MongoConnectionObject(MongoConnectionObjectBuilder builder)

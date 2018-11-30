@@ -6,7 +6,7 @@ using MongoCRUD.Structs;
 
 namespace MongoCRUD
 {
-    internal class MongoConnectionObject
+    public class MongoConnectionObject
     {
         public MongoConnectionObject(string userName, string password, IpConfig mainIpConfig,
             List<IpConfig> replicasIpConfig, string databaseName, Dictionary<string, string> connectionOption)
@@ -28,6 +28,8 @@ namespace MongoCRUD
                 Host = "127.0.0.1",
                 Port = 27017
             };
+            ReplicasIpConfig = new List<IpConfig>();
+            ConnectionOption = new Dictionary<string, string>();
         }
 
         public string UserName { get; set; }
@@ -40,23 +42,40 @@ namespace MongoCRUD
 
         public override string ToString()
         {
-            if (string.IsNullOrEmpty(UserName) || string.IsNullOrEmpty(Password))
+            StringBuilder connectionStringBuilder = new StringBuilder();
+            connectionStringBuilder.Append($"mongodb://");
+            if (!string.IsNullOrEmpty(UserName) && !string.IsNullOrEmpty(Password))
             {
-                if (ReplicasIpConfig.Count > 0)
+                connectionStringBuilder.Append($"{UserName}:{Password}@");
+            }
+
+            connectionStringBuilder.Append($"{MainIpConfig.Host}:{MainIpConfig.Port}");
+            if (ReplicasIpConfig.Count > 0)
+            {
+                connectionStringBuilder.Append($",{ReplicaIpString}");
+            }
+
+            if (!string.IsNullOrEmpty(DatabaseName) || ConnectionOption.Count > 0)
+            {
+                connectionStringBuilder.Append("/");
+                if (!string.IsNullOrEmpty(DatabaseName))
                 {
-                    string replicaIp = ReplicaIpString;
-
-                    return $"mongodb://{MainIpConfig.Host}:{MainIpConfig.Port},{replicaIp}/{DatabaseName}";
+                    connectionStringBuilder.Append(DatabaseName);
                 }
-                return $"mongodb://{MainIpConfig.Host}:{MainIpConfig.Port}/{DatabaseName}";
+
+                if (ConnectionOption.Count > 0)
+                {
+                    connectionStringBuilder.Append("?");
+                    foreach (var option in ConnectionOption)
+                    {
+                        connectionStringBuilder.Append(option.Key + "=" + option.Value + "&");
+                    }
+
+                    connectionStringBuilder.Remove(connectionStringBuilder.Length - 1, 1);
+                }
             }
 
-            else if(ReplicasIpConfig.Count == 0)
-            {
-                return $"mongodb://{UserName}:{Password}@{MainIpConfig.Host}:{MainIpConfig.Port}/{DatabaseName}";
-            }
-
-            return "";
+            return connectionStringBuilder.ToString();
         }
 
         private string ReplicaIpString
@@ -76,7 +95,7 @@ namespace MongoCRUD
             }
         }
 
-        internal struct IpConfig
+        public struct IpConfig
         {
             public string Host { get; set; }
             public int Port { get; set; }

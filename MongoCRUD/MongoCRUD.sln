@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28010.2041
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoCRUD", "MongoCRUD.csproj", "{8C00A739-0055-475A-8EEB-89A31035997C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoCRUDTests", "..\MongoCRUDTests\MongoCRUDTests.csproj", "{90E36D48-64D8-4A7B-BB60-D3619131445E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{8C00A739-0055-475A-8EEB-89A31035997C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C00A739-0055-475A-8EEB-89A31035997C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C00A739-0055-475A-8EEB-89A31035997C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90E36D48-64D8-4A7B-BB60-D3619131445E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90E36D48-64D8-4A7B-BB60-D3619131445E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90E36D48-64D8-4A7B-BB60-D3619131445E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90E36D48-64D8-4A7B-BB60-D3619131445E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -13,7 +13,7 @@ namespace MongoCRUD
             int port = 27017,
             string userName = "", 
             string password = "",
-            Lazy<MongoConnectionStringOptions> connectionStringOptions = null,
+            Dictionary<string,string> connectionStringOptions = null,
             IEnumerable<MongoConnectionStringReplicas> connectionStringReplicas = null)
         {
             MongoConnectionObjectBuilder builder = new MongoConnectionObjectBuilder();
