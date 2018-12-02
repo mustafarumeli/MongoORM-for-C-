@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using MongoCrudExceptionHandling.Exceptions;
 using MongoCRUD.Structs;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -31,7 +32,7 @@ namespace MongoCRUD
             }
             catch (TimeoutException)
             {
-                return false;
+                throw new MongoDbDatabaseConnectionNotEstablised(databaseName,serverIP,port); //todo Add Exception to the name = MongoDbDatabaseConnectionNotEstablishedException
             }
             return true;
         }

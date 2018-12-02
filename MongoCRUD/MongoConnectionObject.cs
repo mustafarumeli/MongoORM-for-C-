@@ -6,9 +6,9 @@ using MongoCRUD.Structs;
 
 namespace MongoCRUD
 {
-    public class MongoConnectionObject
+    internal class MongoConnectionObject
     {
-        public MongoConnectionObject(string userName, string password, IpConfig mainIpConfig,
+        internal MongoConnectionObject(string userName, string password, IpConfig mainIpConfig,
             List<IpConfig> replicasIpConfig, string databaseName, Dictionary<string, string> connectionOption)
         {
             UserName = userName ?? throw new ArgumentNullException(nameof(userName));
@@ -19,7 +19,7 @@ namespace MongoCRUD
             ConnectionOption = connectionOption;
         }
 
-        public MongoConnectionObject()
+        internal MongoConnectionObject()
         {
             UserName = string.Empty;
             Password = string.Empty;
@@ -43,7 +43,7 @@ namespace MongoCRUD
         public override string ToString()
         {
             StringBuilder connectionStringBuilder = new StringBuilder();
-            connectionStringBuilder.Append($"mongodb://");
+            connectionStringBuilder.Append("mongodb://");
             if (!string.IsNullOrEmpty(UserName) && !string.IsNullOrEmpty(Password))
             {
                 connectionStringBuilder.Append($"{UserName}:{Password}@");
@@ -78,7 +78,7 @@ namespace MongoCRUD
             return connectionStringBuilder.ToString();
         }
 
-        private string ReplicaIpString
+        internal string ReplicaIpString
         {
             get
             {
@@ -95,7 +95,7 @@ namespace MongoCRUD
             }
         }
 
-        public struct IpConfig
+        internal class IpConfig
         {
             public string Host { get; set; }
             public int Port { get; set; }

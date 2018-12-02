@@ -163,5 +163,12 @@ namespace MongoCRUD.Tests
             var test = mObject.ToString();
             Assert.AreEqual(test, "mongodb://UserTest:123456@MainHostTest:27017,HostTest:27017,HostTest2:27017");
         }
+
+        [TestMethod]
+        public void ToStringTest_CtorHost()
+        {
+            
+
+        }
     }
 }

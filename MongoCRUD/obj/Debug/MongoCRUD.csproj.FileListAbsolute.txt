@@ -15,7 +15,6 @@ C:\Users\zuzu\Desktop\MongoCRUD\MongoCRUD\MongoCRUD\MongoCRUD\bin\Debug\MongoDB.
 C:\Users\zuzu\Desktop\MongoCRUD\MongoCRUD\MongoCRUD\MongoCRUD\obj\Debug\MongoCRUD.csproj.CopyComplete
 C:\Users\zuzu\Desktop\MongoCRUD\MongoCRUD\MongoCRUD\MongoCRUD\obj\Debug\MongoCRUD.dll
 C:\Users\zuzu\Desktop\MongoCRUD\MongoCRUD\MongoCRUD\MongoCRUD\obj\Debug\MongoCRUD.pdb
-D:\Projects\MongodbConnectionDll\MongoCRUD\bin\Debug\MongoCRUD.dll
 D:\Projects\MongodbConnectionDll\MongoCRUD\bin\Debug\MongoCRUD.pdb
 D:\Projects\MongodbConnectionDll\MongoCRUD\bin\Debug\DnsClient.xml
 D:\Projects\MongodbConnectionDll\MongoCRUD\bin\Debug\MongoDB.Bson.xml
@@ -26,3 +25,7 @@ D:\Projects\MongodbConnectionDll\MongoCRUD\obj\Debug\MongoCRUD.csproj.CoreCompil
 D:\Projects\MongodbConnectionDll\MongoCRUD\obj\Debug\MongoCRUD.csproj.CopyComplete
 D:\Projects\MongodbConnectionDll\MongoCRUD\obj\Debug\MongoCRUD.dll
 D:\Projects\MongodbConnectionDll\MongoCRUD\obj\Debug\MongoCRUD.pdb
+D:\Projects\MongodbConnectionDll\MongoCRUD\bin\Debug\MongoCrudExceptionHandling.dll
+D:\Projects\MongodbConnectionDll\MongoCRUD\bin\Debug\MongoCrudExceptionHandling.pdb
+D:\Projects\MongodbConnectionDll\MongoCRUD\bin\Debug\MongoCRUD.dll
+D:\Projects\MongodbConnectionDll\MongoCRUD\bin\Debug\MongoCRUD.xml

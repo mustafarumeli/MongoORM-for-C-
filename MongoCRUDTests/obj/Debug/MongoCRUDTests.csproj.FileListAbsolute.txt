@@ -24,3 +24,6 @@ D:\Projects\MongodbConnectionDll\MongoCRUDTests\bin\Debug\DnsClient.xml
 D:\Projects\MongodbConnectionDll\MongoCRUDTests\obj\Debug\MongoCRUDTests.csproj.CopyComplete
 D:\Projects\MongodbConnectionDll\MongoCRUDTests\obj\Debug\MongoCRUDTests.dll
 D:\Projects\MongodbConnectionDll\MongoCRUDTests\obj\Debug\MongoCRUDTests.pdb
+D:\Projects\MongodbConnectionDll\MongoCRUDTests\bin\Debug\MongoCrudExceptionHandling.dll
+D:\Projects\MongodbConnectionDll\MongoCRUDTests\bin\Debug\MongoCrudExceptionHandling.pdb
+D:\Projects\MongodbConnectionDll\MongoCRUDTests\bin\Debug\MongoCRUD.xml

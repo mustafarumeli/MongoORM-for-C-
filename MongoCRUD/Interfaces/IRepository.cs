@@ -16,7 +16,8 @@ namespace MongoCRUD.Interfaces
         bool Upsert(T entity);
         List<T> GetAll(BsonDocument filter);
         T GetOne(string id);
-        List<T> Search(string value, string column);
-        List<T> MultipleColumnSearch(string value, IEnumerable<string> columns);
+        T GetOne<T1>(string fieldName, T1 value);
+        List<T> Search(string value, string field);
+        List<T> MultipleFieldSearch(string value, params string[] fields);
     }
 }

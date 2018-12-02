@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MongoCRUD</name>
+    </assembly>
+    <members>
+        <member name="M:MongoCRUD.Crud`1.#ctor">
+            <summary>
+            Tries to initialize the database and finds or creates a MongoDB Collection.
+            </summary>
+        </member>
+        <member name="M:MongoCRUD.Crud`1.Upsert(`0)">
+            <summary>
+            Finds the object given by the parameter "_id" and updates it. If not found, inserts that object.
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MongoCRUD.Crud`1.Delete(System.String)">
+            <summary>
+            Deletes the given object by the "id" parameter.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MongoCRUD.Crud`1.GetAll">
+            <summary>
+            Returns all the object in the MongoDB Collection.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MongoCRUD.Crud`1.ClearColection">
+            <summary>
+            Removes all content from collection.
+            </summary>
+        </member>
+        <member name="P:MongoCRUD.Crud`1.Count">
+            <summary>
+            Returns number of rows from collection which is not marked as deleted.
+            </summary>
+        </member>
+        <member name="P:MongoCRUD.Crud`1.CountAll">
+            <summary>
+            Returns number of rows from collection.
+            </summary>
+        </member>
+        <member name="M:MongoCRUD.Crud`1.GetAll(MongoDB.Bson.BsonDocument)">
+            <summary>
+            Returns all data based on given filter.
+            </summary>
+            <param name="filter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MongoCRUD.Crud`1.GetOne(System.String)">
+            <summary>
+            Gets the object given by the "id" parameter.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MongoCRUD.Crud`1.Search(System.String,System.String)">
+            <summary>
+            Searches given value in given Field. If available, SoftDeletes are included.
+            </summary>
+            <param name="field"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MongoCRUD.Crud`1.MultipleFieldSearch(System.String,System.String[])">
+            <summary>
+            Searches by given value by multiple given Fields.
+            </summary>
+            <param name="value"></param>
+            <param name="fields"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MongoCRUD.Crud`1.GetOne``1(System.String,``0)">
+            <summary>
+            Returns the object given by field and value. If can't be found, returns null.
+            </summary>
+            <param name="fieldName"></param>
+            <param name="value">Must Support ToString()</param>
+            <returns></returns>
+        </member>
+        <member name="M:MongoCRUD.Crud`1.BringBack(MongoDB.Bson.BsonDocument)">
+            <summary>
+            Marks rows as un-deleted if consistent with the filter.
+            </summary>
+            <param name="filter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MongoCRUD.Crud`1.Insert(`0)">
+            <summary>
+            Inserts a given entity into the MongoDB Collection.
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MongoCRUD.Crud`1.InsertMany(`0[])">
+            <summary>
+            Inserts given entities into the MongoDB Collection.
+            </summary>
+            <param name="entities"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MongoCRUD.Crud`1.Update(System.String,`0)">
+            <summary>
+            Updates a chosen entity. Note that it can also change _id property of entity.
+            </summary>
+            <param name="id"></param>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
