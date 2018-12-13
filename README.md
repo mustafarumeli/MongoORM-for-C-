@@ -56,4 +56,4 @@ namespace MongoCRUDDllTest
 
 Execution of this code should be resulted in 2 new User classes to be added to the CoolDatabase.
 
-![CurrentDatabase](https://github.com/mustafarumeli/MongoORM-for-C-/master/ExamplePicture.PNG)
+![CurrentDatabase](https://github.com/mustafarumeli/MongoORM-for-C-/blob/master/ExamplePicture.PNG)
