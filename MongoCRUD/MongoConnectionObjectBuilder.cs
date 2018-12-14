@@ -7,7 +7,7 @@ namespace MongoCRUD
 {
     internal class MongoConnectionObjectBuilder
     {
-        private MongoConnectionObject _mongoConnectionObject;
+        private readonly MongoConnectionObject _mongoConnectionObject;
         private static MongoConnectionObject MongoConnectionObject;
 
         internal MongoConnectionObjectBuilder()

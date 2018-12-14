@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
 using MongoCRUD.Structs;
 
 namespace MongoCRUD
 {
     internal class MongoConnectionObject
     {
-        internal MongoConnectionObject(string userName, string password, IpConfig mainIpConfig,
-            List<IpConfig> replicasIpConfig, string databaseName, Dictionary<string, string> connectionOption)
+        internal MongoConnectionObject(string userName = "", string password = "", IpConfig mainIpConfig = null,
+            List<IpConfig> replicasIpConfig = null, string databaseName = "", Dictionary<string, string> connectionOption = null)
         {
             UserName = userName ?? throw new ArgumentNullException(nameof(userName));
             Password = password ?? throw new ArgumentNullException(nameof(password));
             MainIpConfig = mainIpConfig;
-            ReplicasIpConfig = replicasIpConfig ?? throw new ArgumentNullException(nameof(replicasIpConfig));
+            ReplicasIpConfig = replicasIpConfig;
             DatabaseName = databaseName ?? throw new ArgumentNullException(nameof(databaseName));
             ConnectionOption = connectionOption;
         }
@@ -50,7 +49,7 @@ namespace MongoCRUD
             }
 
             connectionStringBuilder.Append($"{MainIpConfig.Host}:{MainIpConfig.Port}");
-            if (ReplicasIpConfig.Count > 0)
+            if (ReplicasIpConfig?.Count > 0)
             {
                 connectionStringBuilder.Append($",{ReplicaIpString}");
             }

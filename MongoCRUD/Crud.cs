@@ -5,15 +5,16 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using MongoCrudExceptionHandling.Exceptions;
 using MongoCrudExceptionHandling.Exceptions.DeleteFailed;
 using MongoCrudExceptionHandling.Interfaces;
 
 namespace MongoCRUD
 {
+    /// <summary>
+    /// Allows using the main CRUD operations for the given type.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public  class Crud<T> : IRepository<T> where T : DbObject
     {
         private readonly IMongoDatabase _database;
@@ -36,7 +37,19 @@ namespace MongoCRUD
         {
             try
             {
-                var filter = new BsonDocument { { "_id", entity._id } };
+                BsonDocument filter;
+                if (typeof(T) == typeof(DbObjectSD))
+                {
+                    filter = new BsonDocument { { "IsDeleted", 0 }, { "_id", entity._id } };
+                }
+                else if (typeof(T) == typeof(DbObject))
+                {
+                    filter = new BsonDocument{ { "_id", entity._id } };
+                }
+                else
+                {
+                    throw new TypeAccessException(); //todo throw new UnsupportedInheritanceException()
+                }
                 var updateOption = new UpdateOptions { IsUpsert = true };
                 Table.ReplaceOne(filter, entity.ToBsonDocument(), updateOption);
                 return true;
@@ -92,7 +105,19 @@ namespace MongoCRUD
         {
             try
             {
-                var filter = new BsonDocument { { "IsDeleted", 0 } };
+                BsonDocument filter;
+                if (typeof(T) == typeof(DbObjectSD))
+                {
+                    filter = new BsonDocument { { "IsDeleted", 0 } };
+                }
+                else if (typeof(T) == typeof(DbObject))
+                {
+                    filter = new BsonDocument();
+                }
+                else
+                {
+                    throw new TypeAccessException(); //todo throw new UnsupportedInheritanceException()
+                }
                 var results = new List<T>();
                 var found = Table.FindSync(filter);
                 while (found.MoveNext())
@@ -117,13 +142,34 @@ namespace MongoCRUD
             _database.DropCollection(typeof(T).Name);
         }
         /// <summary>
-        /// Returns number of rows from collection which is not marked as deleted.
+        /// Returns number of rows from collection which is not marked as deleted if collection is supporting SoftDelete.
         /// </summary>
-        public long Count => Table.Count(new BsonDocument { { "IsDeleted", 0 } });
+        public long Count
+        {
+            get
+            {
+                BsonDocument filter;
+                if (typeof(T) == typeof(DbObjectSD))
+                {
+                    filter = new BsonDocument { { "IsDeleted", 0 } };
+                }
+                else if (typeof(T) == typeof(DbObject))
+                {
+                    filter = new BsonDocument();
+                }
+                else
+                {
+                    throw new TypeAccessException(); //todo throw new UnsupportedInheritanceException()
+                }
+                return Table.CountDocuments(filter);
+            }
+        }
+
         /// <summary>
         /// Returns number of rows from collection.
         /// </summary>
-        public long CountAll => Table.Count(new BsonDocument());
+        public long CountAll => Table.CountDocuments(new BsonDocument());
+
         /// <summary>
         /// Returns all data based on given filter.
         /// </summary>
@@ -219,7 +265,7 @@ namespace MongoCRUD
             return results;
         }
         /// <summary>
-        /// Searches by given value by multiple given Fields.
+        /// Searches by given value by multiple given Fields. If available, SoftDeletes are included.
         /// </summary>
         /// <param name="value"></param>
         /// <param name="fields"></param>
