@@ -37,6 +37,21 @@ namespace MongoCRUD
             return true;
         }
 
+        public static bool InitializeAndStartConnection(string databaseName,string connectionString)
+        {
+            _client = new MongoClient(connectionString);
+            _database = _client.GetDatabase(databaseName);
+            try
+            {
+                Database.RunCommand((Command<BsonDocument>)"{ping:1}");
+            }
+            catch (TimeoutException)
+            {
+                throw new MongoDbDatabaseConnectionNotEstablised();
+                //todo Add Exception to the name = MongoDbDatabaseConnectionNotEstablishedException
+            }
+            return true;
+        }
 
         private static IMongoClient _client;
         private static IMongoDatabase _database;
