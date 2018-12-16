@@ -9,7 +9,18 @@ namespace MongoCRUD
 {
     public class MongoDbConnection
     {
-        public static bool InitializeAndStartConnection(string databaseName,
+        /// <summary>
+        /// Initializes a database connection by the given parameters. If databaseName is empty then use the 'admin' database.
+        /// </summary>
+        /// <param name="databaseName"></param>
+        /// <param name="serverIP"></param>
+        /// <param name="port"></param>
+        /// <param name="userName"></param>
+        /// <param name="password"></param>
+        /// <param name="connectionStringOptions"></param>
+        /// <param name="connectionStringReplicas"></param>
+        /// <returns></returns>
+        public static bool InitializeAndStartConnection(string databaseName = "",
             string serverIP = "localhost",
             int port = 27017,
             string userName = "", 
@@ -17,6 +28,7 @@ namespace MongoCRUD
             Dictionary<string,string> connectionStringOptions = null,
             IEnumerable<MongoConnectionStringReplicas> connectionStringReplicas = null)
         {
+            if (string.IsNullOrWhiteSpace(databaseName) == true) databaseName = "admin";
             MongoConnectionObjectBuilder builder = new MongoConnectionObjectBuilder();
             MongoConnectionObject mObject = (MongoConnectionObject)builder.GiveDatabaseName(databaseName)
                 .GiveHost(serverIP)
@@ -36,11 +48,40 @@ namespace MongoCRUD
             }
             return true;
         }
+        /// <summary>
+        /// Lets you to switch between databases.
+        /// </summary>
+        /// <param name="databaseName"></param>
+        /// <returns></returns>
+        public static bool SwitchDatabase(string databaseName)
+        {
+            if (_client == null)
+            {
+                throw new MongoDbDatabaseConnectionNotEstablised();
+            }
 
-        public static bool InitializeAndStartConnection(string databaseName,string connectionString)
+            _database = _client.GetDatabase(databaseName);
+            try
+            {
+                Database.RunCommand((Command<BsonDocument>)"{ping:1}");
+            }
+            catch (TimeoutException)
+            {
+                throw new MongoDbDatabaseConnectionNotEstablised();
+                //todo Add Exception to the name = MongoDbDatabaseConnectionNotEstablishedException
+            }
+            return true;
+        }
+        /// <summary>
+        /// Initializes a database connection by the given connection string. If databaseName is empty then use the 'admin' database.
+        /// </summary>
+        /// <param name="connectionString"></param>
+        /// <param name="databaseName"></param>
+        /// <returns></returns>
+        public static bool InitializeAndStartConnection(string connectionString, string databaseName = "")
         {
             _client = new MongoClient(connectionString);
-            _database = _client.GetDatabase(databaseName);
+            _database = _client.GetDatabase(string.IsNullOrWhiteSpace(databaseName) == false ? databaseName : "admin");
             try
             {
                 Database.RunCommand((Command<BsonDocument>)"{ping:1}");

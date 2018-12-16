@@ -15,7 +15,7 @@ namespace MongoCRUD
     /// Allows using the main CRUD operations for the given type.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public  class Crud<T> : IRepository<T> where T : DbObject
+    public class Crud<T> : IRepository<T> where T : DbObject
     {
         private readonly IMongoDatabase _database;
         protected IMongoCollection<BsonDocument> Table;
@@ -37,19 +37,7 @@ namespace MongoCRUD
         {
             try
             {
-                BsonDocument filter;
-                if (typeof(T) == typeof(DbObjectSD))
-                {
-                    filter = new BsonDocument { { "IsDeleted", 0 }, { "_id", entity._id } };
-                }
-                else if (typeof(T) == typeof(DbObject))
-                {
-                    filter = new BsonDocument{ { "_id", entity._id } };
-                }
-                else
-                {
-                    throw new TypeAccessException(); //todo throw new UnsupportedInheritanceException()
-                }
+                BsonDocument filter = GetDocumentForInheritance();
                 var updateOption = new UpdateOptions { IsUpsert = true };
                 Table.ReplaceOne(filter, entity.ToBsonDocument(), updateOption);
                 return true;
@@ -84,7 +72,7 @@ namespace MongoCRUD
         {
             try
             {
-                if (typeof(T) == typeof(DbObjectSD))
+                if (typeof(T).IsSubclassOf(typeof(DbObjectSD)))
                 {
                     return SoftDelete(id);
                 }
@@ -97,6 +85,22 @@ namespace MongoCRUD
                 throw new HardDeleteFailedException(id);
             }
         }
+
+        private BsonDocument GetDocumentForInheritance()
+        {
+            if (typeof(T).IsSubclassOf(typeof(DbObjectSD)))
+            {
+                return new BsonDocument { { "IsDeleted", 0 } };
+            }
+            else if (typeof(T).IsSubclassOf(typeof(DbObject)))
+            {
+                return new BsonDocument();
+            }
+            else
+            {
+                throw new TypeAccessException(); //todo throw new UnsupportedInheritanceException()
+            }
+        }
         /// <summary>
         /// Returns all the object in the MongoDB Collection.
         /// </summary>
@@ -105,19 +109,8 @@ namespace MongoCRUD
         {
             try
             {
-                BsonDocument filter;
-                if (typeof(T) == typeof(DbObjectSD))
-                {
-                    filter = new BsonDocument { { "IsDeleted", 0 } };
-                }
-                else if (typeof(T) == typeof(DbObject))
-                {
-                    filter = new BsonDocument();
-                }
-                else
-                {
-                    throw new TypeAccessException(); //todo throw new UnsupportedInheritanceException()
-                }
+                BsonDocument filter = GetDocumentForInheritance();
+
                 var results = new List<T>();
                 var found = Table.FindSync(filter);
                 while (found.MoveNext())
@@ -137,7 +130,7 @@ namespace MongoCRUD
         /// <summary>
         /// Removes all content from collection.
         /// </summary>
-        public void ClearColection()
+        public void ClearCollection()
         {
             _database.DropCollection(typeof(T).Name);
         }
@@ -148,19 +141,7 @@ namespace MongoCRUD
         {
             get
             {
-                BsonDocument filter;
-                if (typeof(T) == typeof(DbObjectSD))
-                {
-                    filter = new BsonDocument { { "IsDeleted", 0 } };
-                }
-                else if (typeof(T) == typeof(DbObject))
-                {
-                    filter = new BsonDocument();
-                }
-                else
-                {
-                    throw new TypeAccessException(); //todo throw new UnsupportedInheritanceException()
-                }
+                BsonDocument filter = GetDocumentForInheritance();
                 return Table.CountDocuments(filter);
             }
         }
@@ -177,24 +158,18 @@ namespace MongoCRUD
         /// <returns></returns>
         public virtual List<T> GetAll(BsonDocument filter)
         {
-            try
+            if (filter == null)
             {
-                if (filter == null) filter = new BsonDocument { { "IsDeleted", 0 } };
-                var results = new List<T>();
-                var found = Table.FindSync(filter);
-                while (found.MoveNext())
-                {
-                    var batch = found.Current;
-                    results.AddRange(batch.Select(item => BsonSerializer.Deserialize<T>(item)));
-                }
-                return results;
+                throw new ArgumentNullException();
             }
-            catch
+            var results = new List<T>();
+            var found = Table.FindSync(filter);
+            while (found.MoveNext())
             {
-
-                return new List<T>();
+                var batch = found.Current;
+                results.AddRange(batch.Select(item => BsonSerializer.Deserialize<T>(item)));
             }
-
+            return results;
         }
 
         private bool FieldCheck(string field)
@@ -216,9 +191,9 @@ namespace MongoCRUD
             {
                 filter = new BsonDocument { { "_id", id }, { "IsDeleted", 0 } };
             }
-            else if(typeof(T) == typeof(DbObject))
+            else if (typeof(T) == typeof(DbObject))
             {
-                filter = new BsonDocument { { "_id", id }};
+                filter = new BsonDocument { { "_id", id } };
             }
             else
             {
@@ -237,7 +212,7 @@ namespace MongoCRUD
                 if (batch == null) return null;
                 return BsonSerializer.Deserialize<T>(batch.FirstOrDefault());
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 return null;
@@ -270,7 +245,7 @@ namespace MongoCRUD
         /// <param name="value"></param>
         /// <param name="fields"></param>
         /// <returns></returns>
-        public List<T> MultipleFieldSearch(string value,params string[] fields)
+        public List<T> MultipleFieldSearch(string value, params string[] fields)
         {
             if (!fields.Any())
             {
@@ -379,7 +354,7 @@ namespace MongoCRUD
                 Table.InsertOne(entity.ToBsonDocument());
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
                 throw new InsertFailedException(entity);
             }
@@ -422,7 +397,7 @@ namespace MongoCRUD
             }
             catch
             {
-                throw new UpdateFailedException(id,entity);
+                throw new UpdateFailedException(id, entity);
             }
         }
     }

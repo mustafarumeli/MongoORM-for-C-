@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoCRUD", "MongoCRUD.cspr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoCRUDTests", "..\MongoCRUDTests\MongoCRUDTests.csproj", "{90E36D48-64D8-4A7B-BB60-D3619131445E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTest", "..\IntegrationTest\IntegrationTest.csproj", "{3A0B7708-544B-499D-BABA-36B97267B620}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{90E36D48-64D8-4A7B-BB60-D3619131445E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90E36D48-64D8-4A7B-BB60-D3619131445E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90E36D48-64D8-4A7B-BB60-D3619131445E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A0B7708-544B-499D-BABA-36B97267B620}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A0B7708-544B-499D-BABA-36B97267B620}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A0B7708-544B-499D-BABA-36B97267B620}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A0B7708-544B-499D-BABA-36B97267B620}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
