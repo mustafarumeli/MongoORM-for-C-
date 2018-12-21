@@ -1,4 +1,4 @@
-﻿using MongoCRUD.Interfaces;
+using MongoCRUD.Interfaces;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
@@ -38,6 +38,7 @@ namespace MongoCRUD
             try
             {
                 BsonDocument filter = GetDocumentForInheritance();
+                filter.Add(new BsonDocument {{"_id", entity._id}});
                 var updateOption = new UpdateOptions { IsUpsert = true };
                 Table.ReplaceOne(filter, entity.ToBsonDocument(), updateOption);
                 return true;
@@ -120,7 +121,7 @@ namespace MongoCRUD
                 }
                 return results;
             }
-            catch
+            catch(Exception ex)
             {
 
                 return new List<T>();
@@ -187,23 +188,28 @@ namespace MongoCRUD
         {
 
             BsonDocument filter;
-            if (typeof(T) == typeof(DbObjectSD))
+
+            if (typeof(T).IsSubclassOf(typeof(DbObjectSD)))
             {
-                filter = new BsonDocument { { "_id", id }, { "IsDeleted", 0 } };
+                filter = new BsonDocument { { "_id", id },{ "IsDeleted", 0 } };
+                if (!FieldCheck("IsDeleted"))
+                {
+                    throw new GetOneColumnNotFoundException();
+                }
             }
-            else if (typeof(T) == typeof(DbObject))
+            else if (typeof(T).IsSubclassOf(typeof(DbObject)))
             {
-                filter = new BsonDocument { { "_id", id } };
+                filter = new BsonDocument{ { "_id", id } };
             }
             else
             {
                 throw new TypeAccessException(); //todo throw new UnsupportedInheritanceException()
             }
-
-            if (!FieldCheck("_id") || !FieldCheck("IsDeleted"))
+            if (!FieldCheck("_id"))
             {
                 throw new GetOneColumnNotFoundException();
             }
+
             var cursor = Table.FindSync(filter);
             cursor.MoveNext();
             try
