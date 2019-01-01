@@ -15,7 +15,7 @@ This project requires MongoDB Driver already installed to the project. If you us
 ### Installing
 You can install our project with NuGet, using this command
 ```
-Install-Package MongoORM -Version 0.0.4.1
+Install-Package MongoORM -Version 0.0.4.5
 ```
 ### Example
 #### C#
