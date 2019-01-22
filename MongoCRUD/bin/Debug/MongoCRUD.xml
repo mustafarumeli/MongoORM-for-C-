@@ -63,9 +63,9 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:MongoCRUD.Crud`1.ClearCollection">
+        <member name="M:MongoCRUD.Crud`1.DropCollection">
             <summary>
-            Removes all content from collection.
+            Drops the collection.
             </summary>
         </member>
         <member name="P:MongoCRUD.Crud`1.Count">

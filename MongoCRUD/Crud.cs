@@ -15,7 +15,7 @@ namespace MongoCRUD
     /// Allows using the main CRUD operations for the given type.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class Crud<T> : IRepository<T> where T : DbObject
+    public class Crud<T> : IRepository<T>,ICrud where T : DbObject
     {
         private readonly IMongoDatabase _database;
         protected IMongoCollection<BsonDocument> Table;
@@ -38,7 +38,7 @@ namespace MongoCRUD
             try
             {
                 BsonDocument filter = GetDocumentForInheritance();
-                filter.Add(new BsonDocument {{"_id", entity._id}});
+                filter.AddRange(new BsonDocument {{"_id", entity._id}});
                 var updateOption = new UpdateOptions { IsUpsert = true };
                 Table.ReplaceOne(filter, entity.ToBsonDocument(), updateOption);
                 return true;
@@ -87,7 +87,7 @@ namespace MongoCRUD
             }
         }
 
-        private BsonDocument GetDocumentForInheritance()
+        private static BsonDocument GetDocumentForInheritance()
         {
             if (typeof(T).IsSubclassOf(typeof(DbObjectSD)))
             {
@@ -129,9 +129,9 @@ namespace MongoCRUD
 
         }
         /// <summary>
-        /// Removes all content from collection.
+        /// Drops the collection.
         /// </summary>
-        public void ClearCollection()
+        public void DropCollection()
         {
             _database.DropCollection(typeof(T).Name);
         }
@@ -187,27 +187,12 @@ namespace MongoCRUD
         public virtual T GetOne(string id)
         {
 
-            BsonDocument filter;
+            BsonDocument filter = GetDocumentForInheritance();
+            filter.AddRange(new BsonDocument { { "_id", id } });
 
-            if (typeof(T).IsSubclassOf(typeof(DbObjectSD)))
-            {
-                filter = new BsonDocument { { "_id", id },{ "IsDeleted", 0 } };
-                if (!FieldCheck("IsDeleted"))
-                {
-                    throw new GetOneColumnNotFoundException();
-                }
-            }
-            else if (typeof(T).IsSubclassOf(typeof(DbObject)))
-            {
-                filter = new BsonDocument{ { "_id", id } };
-            }
-            else
-            {
-                throw new TypeAccessException(); //todo throw new UnsupportedInheritanceException()
-            }
             if (!FieldCheck("_id"))
             {
-                throw new GetOneColumnNotFoundException();
+                return null;
             }
 
             var cursor = Table.FindSync(filter);
@@ -300,19 +285,7 @@ namespace MongoCRUD
             FieldCheckWithException(fieldName);
             try
             {
-                BsonDocument filter;
-                if (typeof(T) == typeof(DbObjectSD))
-                {
-                    filter = new BsonDocument { { fieldName, value.ToString() }, { "IsDeleted", 0 } };
-                }
-                else if (typeof(T) == typeof(DbObject))
-                {
-                    filter = new BsonDocument { { fieldName, value.ToString() } };
-                }
-                else
-                {
-                    throw new TypeAccessException(); //todo throw new UnsupportedInheritanceException()
-                }
+                BsonDocument filter = GetDocumentForInheritance();
                 var cursor = Table.FindSync(filter);
                 cursor.MoveNext();
                 var batch = cursor.Current;
@@ -320,9 +293,10 @@ namespace MongoCRUD
                 return BsonSerializer.Deserialize<T>(batch.FirstOrDefault());
 
             }
-            catch
+            catch(Exception ex)
             {
-                throw new GetOneFailedException();
+                var exception = new GetOneFailedException(); //todo <-------
+                throw ex;
             }
 
         }
@@ -406,5 +380,7 @@ namespace MongoCRUD
                 throw new UpdateFailedException(id, entity);
             }
         }
+
+        public string TableName => typeof(T).Name;
     }
 }

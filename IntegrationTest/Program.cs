@@ -19,10 +19,12 @@ namespace IntegrationTest
         static void Main(string[] args)
         {
             MongoDbConnection.InitializeAndStartConnection(connectionString: ConnectionString, databaseName:"MilitaryTCG");
-            var crud = new Crud<Entity>();
-            var entity = new Entity { Name = "Wow" };
-            Console.Write(crud.CountAll);
+
+            var asd = new Multiton();
+            asd.TryAdd(new Crud<Entity>());
+            var crud = asd["Entity"];
             Console.ReadLine();
+
         }
     }
 }

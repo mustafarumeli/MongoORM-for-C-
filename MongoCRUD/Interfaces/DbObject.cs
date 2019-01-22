@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace MongoCRUD.Interfaces
@@ -17,10 +18,9 @@ namespace MongoCRUD.Interfaces
 
         public override string ToString()
         {
-           
             var properties = GetType().GetProperties();
             var fields = GetType().GetFields();
-            StringBuilder returnValue = new StringBuilder();
+            var returnValue = new StringBuilder();
             WriteFields(properties);
             WriteFields(fields);
             returnValue.Remove(returnValue.Length - 2, 2);

@@ -81,7 +81,7 @@ namespace MongoCRUD
         {
             get
             {
-                StringBuilder replicaIp = new StringBuilder();
+                var replicaIp = new StringBuilder();
                 for (var i = 0; i < ReplicasIpConfig.Count - 1; i++)
                 {
                     var ipConfig = ReplicasIpConfig[i];
